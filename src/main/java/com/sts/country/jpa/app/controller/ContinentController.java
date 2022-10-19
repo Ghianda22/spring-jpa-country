@@ -27,8 +27,8 @@ public class ContinentController {
     
     @GetMapping("byid/{continentId}")
     public Continent getContinentById(@PathVariable(value = "continentId") int continentId) {
-		Optional<Continent> c = continentRepo.findById(continentId);
-		if (c.isPresent()) return c.get();
+		Optional<Continent> continent = continentRepo.findById(continentId);
+		if (continent.isPresent()) return continent.get();
 		else return new Continent();
     }
 //	@GetMapping("")

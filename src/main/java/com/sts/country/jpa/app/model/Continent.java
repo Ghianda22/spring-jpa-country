@@ -7,14 +7,15 @@ import javax.persistence.*;
 public class Continent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int continentId;
+    @Column(name = "continent_id")
+    private int id;
 
-    public int getContinentId() {
-        return continentId;
+    public int getId() {
+        return id;
     }
 
-    public void setContinentId(int continentId) {
-        this.continentId = continentId;
+    public void setId(int continentId) {
+        this.id = continentId;
     }
 
     public String getName() {
