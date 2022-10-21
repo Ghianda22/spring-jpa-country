@@ -23,10 +23,14 @@ public class CountryController {
     }
 
     @GetMapping("byid/{countryId}")
-    public Country getCountryById(@PathVariable(value = "countryId") int countryId) {
+    public ResponseEntity<Country> getCountryById(@PathVariable(value = "countryId") int countryId) {
         Optional<Country> country = countryRepo.findById(countryId);
-        if (country.isPresent()) return country.get();
-        else return new Country();
+        if (country.isPresent())
+//            return country.get();
+            return new ResponseEntity<Country>(country.get(), HttpStatus.OK);
+        else
+//            return new Country();
+            return new ResponseEntity<Country>((Country) null, HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/create")
@@ -35,6 +39,27 @@ public class CountryController {
                 countryRepo.save(country), HttpStatus.CREATED
         );
 
+    }
+
+    @PutMapping("/update/byid/{countryId}")
+    public ResponseEntity<Country> updateCountry(
+            @PathVariable(value = "countryId") int countryId,
+            @RequestBody Country countryWithUpdates){
+        Optional<Country> countryToBeUpdated = countryRepo.findById(countryId);
+        if(countryToBeUpdated.isPresent()){
+            Country country = countryToBeUpdated.get();
+            country.setName(countryWithUpdates.getName());
+            country.setArea(countryWithUpdates.getArea());
+            country.setCountryCode2(countryWithUpdates.getCountryCode2());
+            country.setCountryCode3(countryWithUpdates.getCountryCode3());
+            country.setRegion(countryWithUpdates.getRegion());
+            return new ResponseEntity<Country>(countryRepo.save(country), HttpStatus.OK);
+        }else return new ResponseEntity<Country>((Country) null, HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/delete/byid/{countryId}")
+    public void deleteCountryById(@PathVariable(value = "countryId") int countryId){
+        countryRepo.deleteById(countryId);
     }
 
 }
