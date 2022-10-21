@@ -1,6 +1,11 @@
 package com.sts.country.jpa.app.model;
 
+import java.util.List;
+
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "continents")
@@ -10,7 +15,21 @@ public class Continent {
     @Column(name = "continent_id")
     private int id;
 
-    public int getId() {
+    @JsonBackReference  //or @JsonIgnore
+    @OneToMany(mappedBy = "continent")
+    private List<Region> regions;
+
+    
+    
+    public List<Region> getRegions() {
+		return regions;
+	}
+
+	public void setRegions(List<Region> regions) {
+		this.regions = regions;
+	}
+
+	public int getId() {
         return id;
     }
 
@@ -28,4 +47,6 @@ public class Continent {
 
     private String name;
 }
+
+
 

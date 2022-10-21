@@ -1,6 +1,8 @@
 package com.sts.country.jpa.app.model;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "regions")
 public class Region {
@@ -11,6 +13,8 @@ public class Region {
 
     private String name;
 
+
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "continent_id")
     private Continent continent;
