@@ -47,13 +47,8 @@ public class CountryController {
             @RequestBody Country countryWithUpdates){
         Optional<Country> countryToBeUpdated = countryRepo.findById(countryId);
         if(countryToBeUpdated.isPresent()){
-            Country country = countryToBeUpdated.get();
-            country.setName(countryWithUpdates.getName());
-            country.setArea(countryWithUpdates.getArea());
-            country.setCountryCode2(countryWithUpdates.getCountryCode2());
-            country.setCountryCode3(countryWithUpdates.getCountryCode3());
-            country.setRegion(countryWithUpdates.getRegion());
-            return new ResponseEntity<Country>(countryRepo.save(country), HttpStatus.OK);
+            countryWithUpdates.setCountryId(countryId);
+            return new ResponseEntity<Country>(countryRepo.save(countryWithUpdates), HttpStatus.OK);
         }else return new ResponseEntity<Country>((Country) null, HttpStatus.NOT_FOUND);
     }
 
